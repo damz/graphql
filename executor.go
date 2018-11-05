@@ -653,7 +653,18 @@ func completeValueCatchingError(eCtx *executionContext, returnType Type, fieldAS
 	return completed
 }
 
+type ExplicitValue struct {
+	Data   interface{}
+	Errors []gqlerrors.FormattedError
+}
+
 func completeValue(eCtx *executionContext, returnType Type, fieldASTs []*ast.Field, info ResolveInfo, path *ResponsePath, result interface{}) interface{} {
+	if result, ok := result.(ExplicitValue); ok {
+		for _, err := range result.Errors {
+			eCtx.Errors = append(eCtx.Errors, err)
+		}
+		return result.Data
+	}
 
 	resultVal := reflect.ValueOf(result)
 	if resultVal.IsValid() && resultVal.Kind() == reflect.Func {
