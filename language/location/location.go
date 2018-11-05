@@ -7,6 +7,7 @@ import (
 )
 
 type SourceLocation struct {
+	Pos    int `json:"-"`
 	Line   int `json:"line"`
 	Column int `json:"column"`
 }
@@ -31,5 +32,5 @@ func GetLocation(s *source.Source, position int) SourceLocation {
 			break
 		}
 	}
-	return SourceLocation{Line: line, Column: column}
+	return SourceLocation{Pos: position, Line: line, Column: column}
 }
