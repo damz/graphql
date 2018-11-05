@@ -17,7 +17,7 @@ type Params struct {
 
 	// The value provided as the first argument to resolver functions on the top
 	// level type (e.g. the query object type).
-	RootObject map[string]interface{}
+	RootObject interface{}
 
 	// A mapping of variable name to runtime value to use for all variables
 	// defined in the requestString.
